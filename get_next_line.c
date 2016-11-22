@@ -7,7 +7,7 @@ int add_buff(char **saveline, int fd){
 
     tmp = *saveline;
     re = read(fd, buff, BUFF_SIZE - 1);
-    buff[BUFF_SIZE] = '\0';
+    buff[re] = '\0';
     if (re < 1)
         return re;
     if (*saveline == NULL)
@@ -29,24 +29,25 @@ int get_next_line(const int fd, char **line)
 
     if (fd == -1)
         return (-1);
-    while (saveLine == NULL || ((newLine = ft_strchr(saveLine, '\n')) == NULL && read_re > 0))
+    if (saveLine == NULL && read_re == 0)
+        return (0);
+    while ((saveLine == NULL && read_re > 0) || ((newLine = ft_strchr(saveLine, '\n')) == NULL && read_re > 0))
         read_re = add_buff(&saveLine, fd);
     if (read_re == -1)
     {
         ft_strdel(&saveLine);
         return(-1);
     }
-    if (saveLine == NULL)
-        return (0);
     if (newLine == NULL)
     {
         *line = ft_strdup(saveLine);
         ft_strdel(&saveLine);
+		saveLine = NULL;
         return(1);
     }
     *line = ft_strsub(saveLine, 0, (int)(newLine - saveLine));
     tmp = saveLine;
-    saveLine = ft_strsub(saveLine, (int)(newLine - saveLine), (ft_strlen(saveLine) - ((int)(newLine - saveLine))));
+    saveLine = ft_strsub(saveLine, (int)(newLine - saveLine) + 1, (ft_strlen(saveLine) - ((int)(newLine - saveLine) + 1)));
     ft_strdel(&tmp);
     return (1);
 }

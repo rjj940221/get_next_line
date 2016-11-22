@@ -12,8 +12,16 @@
 
 #ifndef LIBFT_H
 # define LIBFT_H
-# include <libc.h>
+# include <unistd.h>
 # include <string.h>
+# include <pthread.h>
+# include <string.h>
+# include <sys/types.h>
+# include <sys/uio.h>
+# include <wchar.h>
+# include <stdarg.h>
+# include <inttypes.h>
+# include <stdlib.h>
 # define L_LEN 50
 # define SPILL_MULT	2
 # define NUM_FILES 10
